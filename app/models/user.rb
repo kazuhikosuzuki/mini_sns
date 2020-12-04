@@ -6,6 +6,11 @@ class User < ApplicationRecord
 
   has_many :sns_credentials
   def self.flom_omniauth(auth)
+    sns = SnsCredential.where(provider: auth.provider, uid: auth.uid).first_or_create
+    user = User.where(email: auth.info.email).first_or_intitialize(
+      nickname: auth.info.name,
+        email: auth.info.email
+    )
   end
-  
+
 end
